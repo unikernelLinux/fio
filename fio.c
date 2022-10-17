@@ -23,9 +23,15 @@
  */
 #include "fio.h"
 
+extern void set_bypass_limit(int val);
+extern void set_bypass_syscall(int val);
+
 int main(int argc, char *argv[], char *envp[])
 {
 	int ret = 1;
+	char *args[3] = { "fio", "/fio-job.conf", NULL};
+
+	set_bypass_limit(10);
 
 	compiletime_assert(TD_NR <= TD_ENG_FLAG_SHIFT, "TD_ENG_FLAG_SHIFT");
 
@@ -39,7 +45,7 @@ int main(int argc, char *argv[], char *envp[])
 	if (fio_server_create_sk_key())
 		goto done;
 
-	if (parse_options(argc, argv))
+	if (parse_options(2, args))
 		goto done_key;
 
 	/*
@@ -49,6 +55,8 @@ int main(int argc, char *argv[], char *envp[])
 	setvbuf(stdout, NULL, _IOLBF, 0);
 
 	fio_time_init();
+
+	set_bypass_syscall(1);
 
 	if (nr_clients) {
 		set_genesis_time();

@@ -29,7 +29,7 @@ extern void set_bypass_syscall(int val);
 int main(int argc, char *argv[], char *envp[])
 {
 	int ret = 1;
-	char *args[5] = { "fio", "/fio-job.conf", "--output=/fio.out", "--output-format=json", NULL};
+	char *args[5] = { "fio", "--output=/fio.out", "--output-format=json", "/fio-job.conf", NULL};
 
 	set_bypass_limit(10);
 

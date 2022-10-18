@@ -45,7 +45,7 @@ int main(int argc, char *argv[], char *envp[])
 	if (fio_server_create_sk_key())
 		goto done;
 
-	if (parse_options(2, args))
+	if (parse_options(4, args))
 		goto done_key;
 
 	/*
